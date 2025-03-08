@@ -6,10 +6,56 @@
 
 # Golang Language Features （Golang语法特性）
 <img width="909" alt="image" src="https://github.com/user-attachments/assets/056610f9-dd47-4250-9ba2-1e5896d7cc8c" />
+<img width="902" alt="image" src="https://github.com/user-attachments/assets/915c1c34-9ec0-400f-b814-c7bd80de6573" />
+<img width="923" alt="image" src="https://github.com/user-attachments/assets/644fb45e-b1bd-446d-8948-886ed6828691" />
+<img width="928" alt="image" src="https://github.com/user-attachments/assets/a10c698a-8767-4645-b785-9245548c298c" />
+<img width="928" alt="image" src="https://github.com/user-attachments/assets/9549876e-95a7-4551-9af7-7da79581266b" />
+<img width="835" alt="image" src="https://github.com/user-attachments/assets/f1d98cf3-a27b-4678-8e2d-f4c86e43b07e" />
+<img width="911" alt="image" src="https://github.com/user-attachments/assets/7b398a33-3388-4669-b673-71626a91bf75" />
+<img width="825" alt="image" src="https://github.com/user-attachments/assets/86121229-47a3-458c-b817-6d9c227230a5" />
 
 
-# Golang Syntax & Concepts （Golang语法新奇）
-## Understanding Golang Syntax from a Main Function （从一个main函数初见Golang语法）
+# Golang Syntax & Concepts (从一个main函数初见Golang语法)
+
+## Understanding Golang Syntax from a Main Function (从一个main函数初见Golang语法)
+
+### 1⃣ Golang 基础结构
+一个 Go 程序的基本组成：
+```go
+package main   // 指定程序的包名，必须是 main
+
+import "fmt"   // 导入标准库 fmt
+
+// main 函数 - Go 程序的入口
+func main() {
+    fmt.Println("Hello, World!") // 打印输出
+}
+```
+
+### 2⃣ 运行 Go 代码
+Go 代码可以通过以下两种方式运行：
+
+#### **🔹 方法 1：`go run` （直接运行）**
+```bash
+go run hello.go
+```
+**特点**：
+- 适用于**测试和临时运行**代码
+- **不会生成可执行文件**
+
+#### **🔹 方法 2：`go build` （编译成二进制）**
+```bash
+go build hello.go  # 编译生成可执行文件
+ls                 # 查看文件列表
+./hello            # 运行可执行文件
+```
+**特点**：
+- **生成二进制文件**，适用于生产环境部署
+- **运行速度更快**
+
+
+
+
 - Multiple Return Values （多返回值）
 - Functions （函数）
   - `main` Function & `init` Function （main函数与init函数）
