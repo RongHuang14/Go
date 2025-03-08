@@ -88,6 +88,25 @@ a+b（运算符是不允许的）
 #### 关键字
 <img width="848" alt="image" src="https://github.com/user-attachments/assets/58ed77d9-88f2-4b6b-8aa4-4161cccd2067" />
 
+### 3. Go 语言数据类型
+#### **基本数据类型**
+| 类型 | 说明 |
+|------|------|
+| `bool` | 布尔型，值为 `true` 或 `false` |
+| `int`, `float32`, `float64` | 整型和浮点型，支持复数，位运算采用补码 |
+| `string` | 字符串，UTF-8 编码，存储 Unicode 文本 |
+
+#### **派生类型**
+| 类型 | 说明 |
+|------|------|
+| `Pointer` | 指针类型 |
+| `Array` | 数组类型 |
+| `struct` | 结构体类型 |
+| `Channel` | 并发通信通道 |
+| `Function` | 函数类型 |
+| `Slice` | 切片类型（动态数组） |
+| `interface` | 接口类型 |
+| `Map` | 映射（键值对）类型 |
 
 
 - Multiple Return Values （多返回值）
