@@ -162,7 +162,7 @@ a+b（运算符是不允许的）
    var c = "hello"
    fmt.Println(c) // 输出: hello
    ```
-
+   
 4. **方法四：使用 `:=` 省略 `var` 直接自动匹配（仅限函数内部）（常用的方法）**
 
 ```go
@@ -187,33 +187,18 @@ func main() {
 }
 ```
 
+**预期输出：**
+```
+e = 100
+type of e = int
+f = abcd
+type of f = string
+g = 3.14
+type of g = float64
+```
+
 - `:=` 只能用于函数内部，自动推导变量类型。
 
-```go
-d := 3.14
-fmt.Println(d) // 输出: 3.14
-```
-   ```go
-   package main
-   import "fmt"
-
-   func main() {
-       e := 100
-       fmt.Println("e =", e)
-       fmt.Printf("type of e = %T
-", e)
-
-       f := "abcd"
-       fmt.Println("f =", f)
-       fmt.Printf("type of f = %T
-", f)
-
-       g := 3.14
-       fmt.Println("g =", g)
-       fmt.Printf("type of g = %T
-", g)
-   }
-   ```
 
 
 #### **零值概念**
