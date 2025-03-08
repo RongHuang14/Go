@@ -31,6 +31,10 @@ func main() {
     fmt.Println("Hello, World!") // 打印输出
 }
 ```
+	•	fmt 是 Go 标准库（package），用于格式化 I/O（输入输出），类似于 Python 里的 print()，C 语言的 printf()。
+	•	Println 是 fmt 包中的一个函数，用于输出内容并自动换行。
+ <img width="842" alt="image" src="https://github.com/user-attachments/assets/e1bb8148-f8cc-4dac-a88e-1b06fb8884c7" />
+
 
 ### 2⃣ 运行 Go 代码
 Go 代码可以通过以下两种方式运行：
@@ -53,6 +57,7 @@ ls                 # 查看文件列表
 - **生成二进制文件**，适用于生产环境部署
 - **运行速度更快**
 
+<img width="627" alt="image" src="https://github.com/user-attachments/assets/08aafb72-6e45-45ee-86ab-bb8624c4c507" />
 
 
 
