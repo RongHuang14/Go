@@ -144,33 +144,52 @@ a+b（运算符是不允许的）
 ### 4. Go 语言变量
 
 #### **变量的四种声明方式**
+（全局变量只能使用方法 1、2、3，方法 4 仅限函数内部）
 1. **方法一：声明变量但不初始化（默认零值）**
    ```go
    var a int
    fmt.Println(a) // 输出: 0
    ```
-   - `int` 类型变量 `a` 没有初始化，默认值为 `0`。
 
 2. **方法二：声明变量并初始化**
    ```go
    var b int = 100
    fmt.Println(b) // 输出: 100
    ```
-   - 显式声明变量 `b` 并赋值。
 
 3. **方法三：省略类型，自动推导**
    ```go
    var c = "hello"
    fmt.Println(c) // 输出: hello
    ```
-   - `c` 变量的类型自动推导为 `string`。
 
-4. **方法四：使用 `:=` 省略 `var`（仅限函数内部）**
+4. **方法四：使用 `:=` 省略 `var` 直接自动匹配（仅限函数内部）（常用的方法）**
+   ```go
+   package main
+   import "fmt"
+
+   func main() {
+       e := 100
+       fmt.Println("e =", e)
+       fmt.Printf("type of e = %T
+", e)
+
+       f := "abcd"
+       fmt.Println("f =", f)
+       fmt.Printf("type of f = %T
+", f)
+
+       g := 3.14
+       fmt.Println("g =", g)
+       fmt.Printf("type of g = %T
+", g)
+   }
+   ```
+   - `:=` 只能用于函数内部，自动推导变量类型。
    ```go
    d := 3.14
    fmt.Println(d) // 输出: 3.14
    ```
-   - `:=` 只能用于函数内部，自动推导变量类型。
 
 #### **零值概念**
 - 变量未初始化时，会赋默认零值：
@@ -189,29 +208,33 @@ a+b（运算符是不允许的）
   | 指针、切片、map、通道 | `nil` |
 
 #### **多变量声明**
-1. **同类型多变量声明**
-   ```go
-   var x, y int = 100, 200
-   fmt.Println(x, y) // 输出: 100 200
-   ```
-2. **不同类型多变量声明**
-   ```go
-   var a, b = 123, "hello"
-   fmt.Println(a, b) // 输出: 123 hello
-   ```
-3. **使用 `:=` 声明多个变量（仅限函数内）**
-   ```go
-   m, n := 10, 20
-   fmt.Println(m, n) // 输出: 10 20
-   ```
-4. **分组声明（通常用于全局变量）**
-   ```go
-   var (
-       v1 int  = 100
-       v2 bool = true
-   )
-   fmt.Println(v1, v2) // 输出: 100 true
-   ```
+- **同一行声明多个变量（类型相同或不同）**
+  ```go
+  var x, y int = 100, 200
+  var a, b = 123, "hello"
+  fmt.Println(x, y, a, b) // 输出: 100 200 123 hello
+  ```
+
+- **使用 `:=` 声明多个变量（仅限函数内）**
+  ```go
+  m, n := 10, 20
+  fmt.Println(m, n) // 输出: 10 20
+  ```
+
+- **分组声明**
+  ```go
+  var (
+      v1 int  = 100
+      v2 bool = true
+  )
+  fmt.Println(v1, v2) // 输出: 100 true
+```go
+var x, y int = 100, 200
+fmt.Println(x, y) // 输出: 100 200
+
+var a, b = 123, "hello"
+fmt.Println(a, b) // 输出: 123 hello
+```
 
 #### **并行赋值**
 - **变量交换**
