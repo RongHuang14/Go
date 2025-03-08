@@ -190,6 +190,32 @@ a+b（运算符是不允许的）
    d := 3.14
    fmt.Println(d) // 输出: 3.14
    ```
+   ```go
+   package main
+   import "fmt"
+
+   func main() {
+       e := 100
+       fmt.Println("e =", e)
+       fmt.Printf("type of e = %T
+", e)
+
+       f := "abcd"
+       fmt.Println("f =", f)
+       fmt.Printf("type of f = %T
+", f)
+
+       g := 3.14
+       fmt.Println("g =", g)
+       fmt.Printf("type of g = %T
+", g)
+   }
+   ```
+   - `:=` 只能用于函数内部，自动推导变量类型。
+   ```go
+   d := 3.14
+   fmt.Println(d) // 输出: 3.14
+   ```
 
 #### **零值概念**
 - 变量未初始化时，会赋默认零值：
@@ -228,13 +254,7 @@ a+b（运算符是不允许的）
       v2 bool = true
   )
   fmt.Println(v1, v2) // 输出: 100 true
-```go
-var x, y int = 100, 200
-fmt.Println(x, y) // 输出: 100 200
 
-var a, b = 123, "hello"
-fmt.Println(a, b) // 输出: 123 hello
-```
 
 #### **并行赋值**
 - **变量交换**
