@@ -110,52 +110,88 @@ a+b（运算符是不允许的）
 
 ### 4. Go 语言变量
 
-#### **变量声明**
-```go
-var a string = "Runoob"
-fmt.Println(a)
+#### **变量的四种声明方式**
+1. **方法一：声明变量但不初始化（默认零值）**
+   ```go
+   var a int
+   fmt.Println(a) // 输出: 0
+   ```
+   - `int` 类型变量 `a` 没有初始化，默认值为 `0`。
 
-var b, c int = 1, 2
-fmt.Println(b, c)
-```
+2. **方法二：声明变量并初始化**
+   ```go
+   var b int = 100
+   fmt.Println(b) // 输出: 100
+   ```
+   - 显式声明变量 `b` 并赋值。
+
+3. **方法三：省略类型，自动推导**
+   ```go
+   var c = "hello"
+   fmt.Println(c) // 输出: hello
+   ```
+   - `c` 变量的类型自动推导为 `string`。
+
+4. **方法四：使用 `:=` 省略 `var`（仅限函数内部）**
+   ```go
+   d := 3.14
+   fmt.Println(d) // 输出: 3.14
+   ```
+   - `:=` 只能用于函数内部，自动推导变量类型。
 
 #### **零值概念**
-```go
-var a string  // 默认零值 ""
-var b int     // 默认零值 0
-var c bool    // 默认零值 false
-fmt.Println(a, b, c)
-```
-
-#### **短变量声明（仅限函数内部）**
-```go
-d := true
-fmt.Println(d)
-```
+- 变量未初始化时，会赋默认零值：
+  ```go
+  var s string
+  var i int
+  var b bool
+  fmt.Println(s, i, b) // 输出: "" 0 false
+  ```
+  | 类型 | 零值 |
+  |------|------|
+  | `int` | 0 |
+  | `float64` | 0.0 |
+  | `bool` | false |
+  | `string` | ""（空字符串） |
+  | 指针、切片、map、通道 | `nil` |
 
 #### **多变量声明**
-```go
-var (
-    x, y int
-    a int
-    b bool
-)
-var c, d = 1, 2
-var e, f = 123, "hello"
-
-g, h := 123, "hello"  // 只能在函数体内使用
-fmt.Println(x, y, a, b, c, d, e, f, g, h)
-```
+1. **同类型多变量声明**
+   ```go
+   var x, y int = 100, 200
+   fmt.Println(x, y) // 输出: 100 200
+   ```
+2. **不同类型多变量声明**
+   ```go
+   var a, b = 123, "hello"
+   fmt.Println(a, b) // 输出: 123 hello
+   ```
+3. **使用 `:=` 声明多个变量（仅限函数内）**
+   ```go
+   m, n := 10, 20
+   fmt.Println(m, n) // 输出: 10 20
+   ```
+4. **分组声明（通常用于全局变量）**
+   ```go
+   var (
+       v1 int  = 100
+       v2 bool = true
+   )
+   fmt.Println(v1, v2) // 输出: 100 true
+   ```
 
 #### **并行赋值**
-```go
-a, b := 5, 7
-fmt.Println(a, b)  // 5, 7
-
-// 变量交换
-a, b = b, a
-fmt.Println(a, b)  // 7, 5
-```
+- **变量交换**
+  ```go
+  a, b := 5, 7
+  a, b = b, a
+  fmt.Println(a, b) // 输出: 7 5
+  ```
+- **丢弃不需要的值**
+  ```go
+  _, value := 10, 20
+  fmt.Println(value) // 输出: 20
+  ```
 
 - Multiple Return Values （多返回值）
 - Functions （函数）
