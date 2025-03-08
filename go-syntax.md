@@ -31,9 +31,42 @@ func main() {
     fmt.Println("Hello, World!") // 打印输出
 }
 ```
-	•	fmt 是 Go 标准库（package），用于格式化 I/O（输入输出），类似于 Python 里的 print()，C 语言的 printf()。
-	•	Println 是 fmt 包中的一个函数，用于输出内容并自动换行。
  <img width="842" alt="image" src="https://github.com/user-attachments/assets/e1bb8148-f8cc-4dac-a88e-1b06fb8884c7" />
+
+**常见格式化占位符：**
+| 占位符 | 作用 | 示例 | 输出 |
+|--------|------|------|------|
+| `%T` | 输出变量的数据类型 | `fmt.Printf("%T", 42)` | `int` |
+| `%s` | 输出字符串 | `fmt.Printf("%s", "hello")` | `hello` |
+| `%d` | 输出十进制整数 | `fmt.Printf("%d", 42)` | `42` |
+| `%f` | 输出浮点数 | `fmt.Printf("%.2f", 3.1415)` | `3.14` |
+| `%v` | **通用占位符**（自动匹配类型） | `fmt.Printf("%v", 42.5)` | `42.5` |
+| `%q` | 输出带双引号的字符串 | `fmt.Printf("%q", "hello")` | `"hello"` |
+
+**示例代码：**
+```go
+package main
+import "fmt"
+
+func main() {
+    var num int = 100
+    var pi float64 = 3.1415
+    var str string = "Golang"
+    var boolean bool = true
+
+    fmt.Printf("整数: %d
+", num)       // 输出: 整数: 100
+    fmt.Printf("浮点数: %.2f
+", pi)    // 输出: 浮点数: 3.14
+    fmt.Printf("字符串: %s
+", str)     // 输出: 字符串: Golang
+    fmt.Printf("布尔值: %v
+", boolean) // 输出: 布尔值: true
+    fmt.Printf("变量类型: %T
+", pi)    // 输出: 变量类型: float64
+}
+```（package），用于格式化 I/O（输入输出），类似于 Python 里的 `print()`，C 语言的 `printf()`。
+- `Println` 是 `fmt` 包中的一个函数，用于输出内容并**自动换行**。
 
 
 ### 2⃣ 运行 Go 代码
