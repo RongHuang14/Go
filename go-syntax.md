@@ -214,37 +214,7 @@ fmt.Println(d) // 输出: 3.14
 ", g)
    }
    ```
-   - `:=` 只能用于函数内部，自动推导变量类型。
-   ```go
-   d := 3.14
-   fmt.Println(d) // 输出: 3.14
-   ```
-   ```go
-   package main
-   import "fmt"
 
-   func main() {
-       e := 100
-       fmt.Println("e =", e)
-       fmt.Printf("type of e = %T
-", e)
-
-       f := "abcd"
-       fmt.Println("f =", f)
-       fmt.Printf("type of f = %T
-", f)
-
-       g := 3.14
-       fmt.Println("g =", g)
-       fmt.Printf("type of g = %T
-", g)
-   }
-   ```
-   - `:=` 只能用于函数内部，自动推导变量类型。
-   ```go
-   d := 3.14
-   fmt.Println(d) // 输出: 3.14
-   ```
 
 #### **零值概念**
 - 变量未初始化时，会赋默认零值：
