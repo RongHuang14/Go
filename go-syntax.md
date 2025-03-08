@@ -19,7 +19,7 @@
 
 ## Understanding Golang Syntax from a Main Function (从一个main函数初见Golang语法)
 
-### 1⃣ Golang 基础结构
+### 1. Golang 基础结构
 一个 Go 程序的基本组成：
 ```go
 package main   // 指定程序的包名，必须是 main
@@ -58,6 +58,35 @@ ls                 # 查看文件列表
 - **运行速度更快**
 
 <img width="627" alt="image" src="https://github.com/user-attachments/assets/08aafb72-6e45-45ee-86ab-bb8624c4c507" />
+
+### 2. Go 语言基础语法
+#### 行分割符
+golang中的表达式加不加分号无所谓建议不加
+<img width="471" alt="image" src="https://github.com/user-attachments/assets/065c15b9-4cd6-4833-8f6d-b2ad4d9f073d" />
+
+#### 注释
+单行注释：//
+多行注释：/*  */
+<img width="602" alt="image" src="https://github.com/user-attachments/assets/05c62559-20b9-482f-a890-b4361af10bfb" />
+
+#### 标识符
+标识符用来命名变量、类型等程序实体。一个标识符实际上就是一个或是多个字母(A~Z和a~z)数字(0~9)、下划线_组成的序列，但是第一个字符必须是字母或下划线而不能是数字。
+
+以下是有效的标识符：
+```bash
+mahesh   kumar   abc   move_name   a_123
+myname50   _temp   j   a23b9   retVal
+```
+以下是无效的标识符：
+1ab（以数字开头）
+case（Go 语言的关键字）
+a+b（运算符是不允许的）
+
+#### 字符串连接
+<img width="607" alt="image" src="https://github.com/user-attachments/assets/53d61dc3-cf7a-4851-8999-55c8e0a32259" />
+
+#### 关键字
+<img width="848" alt="image" src="https://github.com/user-attachments/assets/58ed77d9-88f2-4b6b-8aa4-4161cccd2067" />
 
 
 
