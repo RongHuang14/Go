@@ -108,6 +108,54 @@ a+b（运算符是不允许的）
 | `interface` | 接口类型 |
 | `Map` | 映射（键值对）类型 |
 
+### 4. Go 语言变量
+
+#### **变量声明**
+```go
+var a string = "Runoob"
+fmt.Println(a)
+
+var b, c int = 1, 2
+fmt.Println(b, c)
+```
+
+#### **零值概念**
+```go
+var a string  // 默认零值 ""
+var b int     // 默认零值 0
+var c bool    // 默认零值 false
+fmt.Println(a, b, c)
+```
+
+#### **短变量声明（仅限函数内部）**
+```go
+d := true
+fmt.Println(d)
+```
+
+#### **多变量声明**
+```go
+var (
+    x, y int
+    a int
+    b bool
+)
+var c, d = 1, 2
+var e, f = 123, "hello"
+
+g, h := 123, "hello"  // 只能在函数体内使用
+fmt.Println(x, y, a, b, c, d, e, f, g, h)
+```
+
+#### **并行赋值**
+```go
+a, b := 5, 7
+fmt.Println(a, b)  // 5, 7
+
+// 变量交换
+a, b = b, a
+fmt.Println(a, b)  // 7, 5
+```
 
 - Multiple Return Values （多返回值）
 - Functions （函数）
