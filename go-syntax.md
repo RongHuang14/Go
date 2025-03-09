@@ -984,6 +984,8 @@ main()函数中 c = 30
 | **形式参数** | 函数参数 | 仅限该函数 |
 
 
+<img width="593" alt="image" src="https://github.com/user-attachments/assets/06bb384a-64ca-407c-847a-09e33d940bc7" />
+
 
   
 
