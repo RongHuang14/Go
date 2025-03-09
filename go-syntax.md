@@ -548,6 +548,154 @@ func main() {
 📢 **Go 语言不支持 `?:` 三目运算符**，只能使用 `if...else`。
 
 
+### 8. Go 语言循环语句
+
+Go 语言支持 `for` 关键字进行循环，提供 **普通循环、无限循环、循环控制语句**。
+
+---
+
+### 1️⃣ **基本 for 循环**
+Go 语言 **仅支持 `for`** 作为循环关键字，没有 `while` 和 `do...while`。
+```go
+package main
+import "fmt"
+
+func main() {
+    for i := 0; i < 5; i++ {
+        fmt.Println("当前值：", i)
+    }
+}
+```
+**输出：**
+```
+当前值： 0
+当前值： 1
+当前值： 2
+当前值： 3
+当前值： 4
+```
+
+---
+
+### 2️⃣ **省略初始语句和递增语句**
+`for` 允许省略 **初始化** 和 **递增** 部分。
+```go
+package main
+import "fmt"
+
+func main() {
+    i := 0
+    for i < 5 {
+        fmt.Println("当前值：", i)
+        i++
+    }
+}
+```
+**输出：**
+```
+当前值： 0
+当前值： 1
+当前值： 2
+当前值： 3
+当前值： 4
+```
+
+---
+
+### 3️⃣ **无限循环**
+Go 语言的 `for` 语句 **可以没有任何条件**，形成无限循环。
+```go
+package main
+import "fmt"
+
+func main() {
+    for {
+        fmt.Println("无限循环")
+    }
+}
+```
+🔹 **注意：** 无限循环需配合 `break` 退出，否则会死循环。
+
+---
+
+### 4️⃣ **循环控制语句**
+#### **`break` 语句（跳出循环）**
+```go
+package main
+import "fmt"
+
+func main() {
+    for i := 0; i < 10; i++ {
+        if i == 5 {
+            break
+        }
+        fmt.Println("i =", i)
+    }
+}
+```
+**输出：**
+```
+i = 0
+i = 1
+i = 2
+i = 3
+i = 4
+```
+
+#### **`continue` 语句（跳过当前循环，继续下一次）**
+```go
+package main
+import "fmt"
+
+func main() {
+    for i := 0; i < 5; i++ {
+        if i == 2 {
+            continue
+        }
+        fmt.Println("i =", i)
+    }
+}
+```
+**输出：**
+```
+i = 0
+i = 1
+i = 3
+i = 4
+```
+🔹 **当 `i == 2` 时，`continue` 让程序跳过 `fmt.Println`，直接进入下一次循环。**
+
+#### **`goto` 语句（跳转到指定标签）**
+```go
+package main
+import "fmt"
+
+func main() {
+    i := 0
+START:
+    fmt.Println("i =", i)
+    i++
+    if i < 3 {
+        goto START
+    }
+}
+```
+**输出：**
+```
+i = 0
+i = 1
+i = 2
+```
+🔹 **`goto` 不建议滥用，否则代码可读性会变差。**
+
+---
+
+📢 **Go 语言循环特点：**
+- `for` 是唯一的循环语句（没有 `while` 和 `do...while`）。
+- `for` 语句可以省略初始值、条件表达式、递增语句。
+- 支持 `break`、`continue`、`goto` 进行循环控制。
+
+
   
 
 - Multiple Return Values （多返回值）
