@@ -984,7 +984,152 @@ main()函数中 c = 30
 | **形式参数** | 函数参数 | 仅限该函数 |
 
 
+### 11. Go 语言 `init` 函数与导包
+
+在 Go 语言中，`init` 函数用于**初始化包**，主要作用如下：
+- **在 `main()` 之前执行**，用于执行初始化逻辑。
+- **一个包可以有多个 `init` 函数**（可以在同一个文件或多个文件中）。
+- **`init` 不能被手动调用**，它会在包被导入时自动执行。
+
+---
 <img width="593" alt="image" src="https://github.com/user-attachments/assets/06bb384a-64ca-407c-847a-09e33d940bc7" />
+<img width="635" alt="image" src="https://github.com/user-attachments/assets/6dbb7304-50d2-4c5a-9d78-3e327350e123" />
+
+
+### 1️⃣ **`init` 函数示例**
+```go
+package lib1
+
+import "fmt"
+
+// 当前 lib1 包提供的 API，函数首字母需要大写表示是对外开放的。
+func Lib1Test() {
+    fmt.Println("lib1Test()...")
+}
+
+// `init` 在包导入时自动执行。
+func init() {
+    fmt.Println("lib1. init() ...")
+}
+```
+
+```go
+package lib2
+
+import "fmt"
+
+// 当前 lib2 包提供的 API，函数首字母需要大写表示是对外开放的。
+func Lib2Test() {
+    fmt.Println("lib2Test()...")
+}
+
+func init() {
+    fmt.Println("lib2. init() ...")
+}
+```
+
+```go
+package main
+
+import (
+    "GolangStudy/5-init/lib1"
+    "GolangStudy/5-init/lib2"
+)
+
+func main() {
+    lib1.Lib1Test()
+    lib2.Lib2Test()
+}
+```
+
+**执行顺序：**
+```
+lib1. init() ...
+lib2. init() ...
+lib1Test()...
+lib2Test()...
+```
+📌 **执行顺序解析**：
+- `init()` 先执行（按 `import` 依赖顺序，从 `pkg3` 开始）。
+- `main()` 最后执行。
+
+---
+
+### 2️⃣ **三种 `import` 导包方式**
+
+Go 语言提供了三种 `import` 方式：
+
+#### **1. 匿名导入（`_ "包路径"`）**
+- 仅执行 `init()`，不会导出 API。
+- 适用于只需要初始化某个包但不直接调用它的方法。
+
+```go
+import _ "GolangStudy/5-init/lib1"
+```
+📌 **适用场景**：
+- 数据库驱动、日志系统等 **只需要 `init` 逻辑** 的情况。
+
+---
+
+#### **2. 别名导入（`别名 "包路径"`）**
+- 给 `import` 进来的包起一个别名，调用时使用别名。
+
+```go
+import mylib2 "GolangStudy/5-init/lib2"
+
+func main() {
+    mylib2.Lib2Test() // 通过别名 `mylib2` 访问 `lib2`
+}
+```
+📌 **适用场景**：
+- 避免包名冲突，或**简化代码**（如 `fmt.Println()` → `f.Println()`）。
+
+---
+
+#### **3. 直接导入 `.`（不推荐）**
+- 直接导入 `lib2` 的全部方法到当前作用域，无需包名前缀。
+
+```go
+import . "GolangStudy/5-init/lib2"
+
+func main() {
+    Lib2Test() // 直接调用 `lib2` 的 `Lib2Test()` 方法
+}
+```
+📌 **缺点**：
+- **可能导致命名冲突**，不利于代码可读性。
+- **通常不推荐使用**，除非在测试代码或 `main` 包中。
+
+---
+
+### 3️⃣ **`import` 执行顺序示意图**
+
+当 `main.go` 依赖 `lib1`，`lib1` 依赖 `lib2`，那么 `init()` 的执行顺序如下：
+
+```
+lib2. init() ...
+lib1. init() ...
+main() 执行
+```
+
+📌 **执行顺序总结**：
+1. **先初始化 `lib2`（最底层依赖）。**
+2. **再初始化 `lib1`（依赖 `lib2`）。**
+3. **最后执行 `main()`。**
+
+---
+
+### 4️⃣ **总结**
+✅ `init()` 在 `main()` 之前自动执行。
+✅ `import _ "包路径"` 只执行 `init()`，不暴露 API。
+✅ `import 别名 "包路径"` 用别名访问包，避免冲突。
+✅ `import . "包路径"` 直接导入，不推荐使用。
+✅ `init()` 执行顺序 **从最底层包开始**，按依赖层级递归执行。
+
+🚀 **最佳实践**：
+- **尽量避免使用 `import .`，推荐使用 `别名导入`。**
+- **只在必要时使用 `init()`，避免隐藏逻辑导致调试困难。**
+
 
 
   
