@@ -1131,6 +1131,172 @@ main() 执行
 - **只在必要时使用 `init()`，避免隐藏逻辑导致调试困难。**
 
 
+### 12. Go 语言指针
+值传递
+<img width="969" alt="image" src="https://github.com/user-attachments/assets/5b0be3cc-f8ca-48fc-8c4e-18cbd0f24221" />
+
+引用传递
+<img width="910" alt="image" src="https://github.com/user-attachments/assets/a365d6c0-e4f8-4373-a5a4-871d2abda243" />
+在 Go 语言中，指针（Pointer） 是一个存储变量内存地址的变量。指针的主要作用是：
+
+允许间接访问变量的值，可以修改函数外部的变量（引用传递）。
+
+减少内存占用，避免大对象的值拷贝，提高程序效率。
+
+在数据结构（链表、树等）和系统编程中广泛应用。
+
+---
+
+
+### 1️⃣ ** 值传递 vs. 引用传递 **
+值传递：函数参数是变量的拷贝，函数内部修改不会影响原变量。
+引用传递（指针）：函数参数是变量的地址，函数内部修改会影响原变量。
+<img width="593" alt="image" src="https://github.com/user-attachments/assets/06bb384a-64ca-407c-847a-09e33d940bc7" />
+<img width="635" alt="image" src="https://github.com/user-attachments/assets/6dbb7304-50d2-4c5a-9d78-3e327350e123" />
+
+
+### 2️⃣ ** 指针的基本使用**
+
+Go 语言提供了三种 `import` 方式：
+
+#### **1. 取变量地址（&）**
+Go 语言的 & 取地址符 可获取变量的内存地址：
+
+```go
+package main
+import "fmt"
+
+func main() {
+    var a int = 10
+    fmt.Printf("a 变量的地址: %p\n", &a)  // 输出变量 a 的内存地址
+}
+```
+---
+
+#### **2. 声明指针变量（*）**
+- 指针变量存储的是变量的内存地址。
+
+- 通过 * 访问指针所指向的值。
+
+```go
+package main
+import "fmt"
+
+func main() {
+    var a int = 10
+    var p *int  // 声明指针变量
+    p = &a      // p 存储变量 a 的地址
+    
+    fmt.Printf("a 变量的地址: %p\n", &a)
+    fmt.Printf("p 存储的地址: %p\n", p)
+    fmt.Printf("p 指向的值: %d\n", *p) // 通过指针访问变量值
+}
+```
+
+```go
+a 变量的地址: 0xc0000140a0
+p 存储的地址: 0xc0000140a0
+p 指向的值: 10
+```
+
+---
+
+#### **3. 指针作为函数参数（引用传递）**
+
+
+### 1️⃣ **1. 值传递（不会修改原值）**
+
+```
+package main
+import "fmt"
+
+func swap(a int, b int) {
+    temp := a
+    a = b
+    b = temp
+}
+
+func main() {
+    a, b := 10, 20
+    swap(a, b)
+    fmt.Println("a =", a, "b =", b)  // 仍然是 10, 20
+}
+```
+
+### 2️⃣ **指针传递（可以修改原值）**
+
+```
+package main
+import "fmt"
+
+func swap(pa *int, pb *int) {
+    temp := *pa
+    *pa = *pb
+    *pb = temp
+}
+
+func main() {
+    a, b := 10, 20
+    swap(&a, &b)  // 传递指针
+    fmt.Println("a =", a, "b =", b)  // 交换成功
+}
+```
+输出：
+
+```
+a = 20 b = 10
+```
+📌 总结：
+
+- 值传递：拷贝变量，不影响原值。
+
+- 指针传递：传递变量地址，修改影响原值。
+
+### 4️⃣ **指针的进阶使用**
+1. 指针的默认值 nil
+```
+var p *int  // 指针默认值是 nil
+fmt.Println(p == nil) // 输出: true
+```
+2. 指针的指针（二级指针）
+```
+package main
+import "fmt"
+
+func main() {
+    var a int = 10
+    var p *int = &a  // p 存储 a 的地址
+    var pp **int = &p  // pp 存储 p 的地址
+    
+    fmt.Println("a =", a)
+    fmt.Println("p 指向的值 =", *p)
+    fmt.Println("pp 指向的值 =", **pp)
+}
+```
+输出：
+```
+a = 10
+p 指向的值 = 10
+pp 指向的值 = 10
+```
+
+📌 总结：
+
+- p 是一级指针，存储 a 的地址。
+
+- pp 是二级指针，存储 p 的地址，可通过 **pp 访问 a 的值。
+
+### 5️⃣ **总结**
+
+✅ & 取地址符：获取变量的内存地址。
+✅ * 指针运算符：访问指针所指向的值。
+✅ 指针可以作为函数参数，实现引用传递。
+✅ 默认值是 nil，避免 nil 指针错误。
+✅ 支持二级指针（指向指针的指针）。
+
+
+
+
 
   
 
