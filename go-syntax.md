@@ -253,6 +253,89 @@ type of g = float64
   fmt.Println(value) // 输出: 20
   ```
 
+### 5. Go 语言常量
+
+在 Go 语言中，**常量（constant）** 指的是 **在程序运行期间不会改变的值**，使用 `const` 关键字声明。
+
+#### **1️⃣ 单个常量声明**
+```go
+package main
+import "fmt"
+
+func main() {
+    const length int = 10
+    fmt.Println("length =", length) // 输出: length = 10
+
+    // length = 100  // ❌ 错误: 常量不能被修改
+}
+```
+- 常量必须在声明时初始化，**不能** 之后再赋值或修改。
+
+#### **2️⃣ 多个常量声明**
+```go
+const (
+    PI  = 3.14
+    E   = 2.718
+    MSG = "Hello, Go!"
+)
+
+func main() {
+    fmt.Println(PI, E, MSG) // 输出: 3.14 2.718 Hello, Go!
+}
+```
+
+#### **3️⃣ 枚举常量（iota 计数器）**
+`iota` 是 Go 语言提供的 **常量生成器**，可以用来创建**连续递增的值**。
+
+```go
+const (
+    A = iota  // 0
+    B         // 1
+    C         // 2
+)
+
+func main() {
+    fmt.Println(A, B, C) // 输出: 0 1 2
+}
+```
+- `iota` 默认从 `0` 开始，每定义一行常量，它的值 **自动加 1**。
+
+#### **4️⃣ iota 进阶用法**
+```go
+const (
+    X, Y = iota + 1, iota + 2  // X=1, Y=2 (iota=0)
+    M, N                      // M=2, N=3 (iota=1)
+    P, Q                      // P=3, Q=4 (iota=2)
+
+    R, S = iota * 2, iota * 3 // R=6, S=9 (iota=3)
+    T, U                      // T=8, U=12 (iota=4)
+)
+
+func main() {
+    fmt.Println(X, Y, M, N, P, Q, R, S, T, U)
+    // 输出: 1 2 2 3 3 4 6 9 8 12
+}
+```
+- **`iota` 在 `const` 代码块中按行递增**，可配合计算生成复杂的常量值。
+
+#### **5️⃣ iota 位运算示例**
+可用于 **位掩码** 或 **位移枚举**：
+```go
+const (
+    READ   = 1 << iota // 1 (0001)
+    WRITE             // 2 (0010)
+    EXECUTE           // 4 (0100)
+    DELETE            // 8 (1000)
+)
+
+func main() {
+    fmt.Println(READ, WRITE, EXECUTE, DELETE) // 输出: 1 2 4 8
+}
+```
+- `1 << iota` 让常量以 **2 的幂递增**，适用于权限管理、状态标记等场景。
+
+---
+
 - Multiple Return Values （多返回值）
 - Functions （函数）
   - `main` Function & `init` Function （main函数与init函数）
