@@ -2006,6 +2006,205 @@ func main() {
 ✅ 遍历时可使用 `_` 忽略索引或值。
 
 
+# 18. Go 语言面向对象 - 类
+<img width="502" alt="image" src="https://github.com/user-attachments/assets/7d9307f4-4fe4-45f6-9458-54509d2d5b4c" />
+
+## 1️⃣ Go 语言的类与结构体
+Go 语言没有传统的 `class` 关键字，而是通过 **`struct`（结构体）** 来定义类。  
+结构体用于封装数据，而方法则是绑定在结构体上的函数。  
+
+在 Java 中，类通常定义如下：
+```java
+class Hero {
+    private String name;
+    public void setName(String newName) { this.name = newName; }
+}
+```
+在 Go 语言中，类似的类定义如下：
+```go
+type Hero struct {
+    Name  string  // 公有属性
+    Ad    int     // 公有属性
+    level int     // 私有属性（首字母小写，仅限包内访问）
+}
+```
+
+---
+
+## 2️⃣ 结构体的封装（访问权限）
+Go 语言的访问权限是通过 **大小写** 规则控制的：
+- **首字母大写**：可以被其他 `package` 访问（类似 Java `public`）。
+- **首字母小写**：只能在当前 `package` 访问（类似 Java `private`）。
+
+示例：
+```go
+type Hero struct {
+    Name  string  // 可公开访问
+    level int     // 仅限当前包访问
+}
+```
+
+---
+
+## 3️⃣ Go 语言的对象（实例化）
+在 Java 中，我们使用 `new` 关键字创建对象：
+```java
+Hero hero = new Hero();
+```
+而在 Go 语言中，创建对象的方式：
+```go
+hero := Hero{Name: "张三", Ad: 100}
+```
+
+---
+
+## 4️⃣ 结构体的方法
+Go 语言的方法是绑定在结构体上的 **函数**，语法如下：
+```go
+func (this *Hero) Show() {
+    fmt.Println("Name =", this.Name)
+    fmt.Println("Ad =", this.Ad)
+    fmt.Println("Level =", this.level)
+}
+```
+- **方法接收者 (`this *Hero`)**：用于绑定 `Hero` 结构体的方法。
+
+在 Java 中：
+```java
+public void show() {
+    System.out.println("Name = " + this.name);
+}
+```
+Go 的等价实现：
+```go
+func (this *Hero) Show() {
+    fmt.Println("Name =", this.Name)
+}
+```
+
+---
+
+## 5️⃣ Go 语言的方法调用
+Go 语言的方法调用类似 Java：
+```go
+hero := Hero{Name: "张三", Ad: 100}
+hero.Show()  // 调用方法
+```
+
+---
+
+## 6️⃣ 值接收者 vs. 指针接收者（⚠️ 重点）
+**在 Go 语言中，方法默认是** **值传递**，如果不使用指针，则无法修改实例的属性！**
+
+### ❌ 错误示例：值接收者，无法修改实例
+```go
+func (h Hero) SetName(newName string) {
+    h.Name = newName // 修改的是副本，外部不会生效
+}
+```
+```go
+hero := Hero{Name: "张三"}
+hero.SetName("李四") // 这里修改的是副本
+fmt.Println(hero.Name) // 仍然是 "张三"
+```
+
+### ✅ 正确示例：指针接收者，能修改实例
+```go
+func (h *Hero) SetName(newName string) {
+    h.Name = newName // 直接修改实例
+}
+```
+```go
+hero := Hero{Name: "张三"}
+hero.SetName("李四") // 这里能修改实例
+fmt.Println(hero.Name) // 输出 "李四"
+```
+
+📌 **结论**：
+| 方式 | 是否能修改实例属性 | 适用场景 |
+|------|------------------|-----------|
+| **值接收者 (`h Hero`)** | ❌ 不能修改 | 适用于 **只读操作**，例如 `GetName()` |
+| **指针接收者 (`h *Hero`)** | ✅ 可以修改 | 适用于 **需要修改实例属性** 的方法 |
+
+在 Java 中：
+```java
+public void setName(String newName) { this.name = newName; }
+```
+Go 语言的等价实现：
+```go
+func (h *Hero) SetName(newName string) { h.Name = newName }
+```
+
+---
+
+## 7️⃣ Go vs. Java 面向对象的类比
+| 语言 | 类定义 | 属性 | 方法 | 实例化 |
+|------|------|------|------|------|
+| **Java** | `class Hero {}` | `private String name;` | `public void setName(String newName) { this.name = newName; }` | `Hero hero = new Hero();` |
+| **Go** | `type Hero struct {}` | `Name string` | `func (h *Hero) SetName(newName string) { h.Name = newName }` | `hero := Hero{Name: "张三"}` |
+
+---
+
+## 8️⃣ 总结
+1. **Go 语言使用 `struct` 代替类**，通过方法绑定实现面向对象。
+2. **大小写决定访问权限**：
+   - 大写开头：公有（`public`）
+   - 小写开头：私有（`private`）
+3. **默认方法是值传递**，如果需要修改属性，**必须使用指针接收者** (`*Hero`)。
+4. **Go 语言没有 `class`，但可以通过 `struct + 方法` 实现面向对象编程**。
+
+---
+
+📌 **最终示例**
+```go
+package main
+
+import "fmt"
+
+// 定义结构体（类）
+type Hero struct {
+    Name  string
+    Ad    int
+    level int
+}
+
+// 方法（绑定指针接收者，支持修改实例属性）
+func (h *Hero) Show() {
+    fmt.Println("Name =", h.Name)
+    fmt.Println("Ad =", h.Ad)
+    fmt.Println("Level =", h.level)
+}
+
+// 获取 Name
+func (h *Hero) GetName() string {
+    return h.Name
+}
+
+// 修改 Name
+func (h *Hero) SetName(newName string) {
+    h.Name = newName
+}
+
+func main() {
+    hero := Hero{Name: "张三", Ad: 100}
+
+    hero.Show()
+
+    hero.SetName("李四")
+
+    hero.Show()
+}
+```
+输出：
+```
+Name = 张三
+Ad = 100
+Level = 0
+Name = 李四
+Ad = 100
+Level = 0
+```
+
   
 
 - Multiple Return Values （多返回值）
