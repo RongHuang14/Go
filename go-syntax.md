@@ -1392,6 +1392,168 @@ defer 执行...
 ✅ `defer` 在 **`return` 执行后，函数退出前** 运行  
 ✅ 适用于 **资源释放、错误处理、日志记录** 等场景  
 
+### 14. Go 语言数组与 Slice
+
+Go 语言提供了数组类型的数据结构。
+
+数组是具有相同唯一类型的一组已编号且长度固定的数据项序列，这种类型可以是任意的原始类型例如整型、字符串或者自定义类型。
+
+相对于去声明 `number0, number1, ..., number99` 的变量，使用数组形式 `numbers[0], numbers[1] ..., numbers[99]` 更加方便且易于扩展。
+
+数组元素可以通过索引（位置）来读取（或者修改），索引从 `0` 开始，第一个元素索引为 `0`，第二个索引为 `1`，以此类推。
+
+---
+
+### 1️⃣ **声明数组**
+
+Go 语言数组声明需要指定元素类型及元素个数，语法格式如下：
+
+```go
+var arrayName [size]dataType
+```
+
+其中：
+- `arrayName` 是数组的名称。
+- `size` 是数组的大小。
+- `dataType` 是数组中元素的数据类型。
+
+示例：
+
+```go
+var balance [10]float32
+```
+
+### 2️⃣ **初始化数组**
+
+```go
+var numbers = [5]int{1, 2, 3, 4, 5}
+numbers := [5]int{1, 2, 3, 4, 5}
+```
+
+如果数组长度不确定，可以使用 `...` 代替数组的长度：
+
+```go
+balance := [...]float32{1000.0, 2.0, 3.4, 7.0, 50.0}
+```
+
+可以指定索引进行初始化：
+
+```go
+balance := [5]float32{1: 2.0, 3: 7.0}
+```
+
+---
+
+### 3️⃣ **访问数组元素**
+
+数组元素可以通过索引（位置）来读取。
+
+```go
+var salary float32 = balance[2]
+```
+
+完整实例：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+   var n [10]int 
+   var i int
+
+   for i = 0; i < 10; i++ {
+      n[i] = i + 100
+   }
+
+   for i = 0; i < 10; i++ {
+      fmt.Printf("Element[%d] = %d\n", i, n[i])
+   }
+}
+```
+
+---
+
+### 4️⃣ **数组作为参数（值传递）**
+
+```go
+package main
+
+import "fmt"
+
+func printArray(myArray [4]int) {
+    for index, value := range myArray {
+        fmt.Println("index =", index, ", value =", value)
+    }
+    myArray[0] = 111 // 修改不会影响原数组
+}
+
+func main() {
+    myArray := [4]int{11, 22, 33, 44}
+    printArray(myArray)
+    fmt.Println(myArray) // 依旧是原值
+}
+```
+
+---
+
+### 5️⃣ **Slice（切片）**
+
+切片是对数组的抽象，比数组更灵活。
+
+```go
+mySlice := []int{1, 2, 3, 4}
+fmt.Printf("mySlice type is %T\n", mySlice)
+```
+
+切片是引用类型，传递时是**引用传递**：
+
+```go
+package main
+
+import "fmt"
+
+func modifySlice(slice []int) {
+    slice[0] = 100 // 影响原切片
+}
+
+func main() {
+    mySlice := []int{1, 2, 3, 4}
+    modifySlice(mySlice)
+    fmt.Println(mySlice) // [100, 2, 3, 4]
+}
+```
+
+---
+
+### 6️⃣ **切片的扩容机制**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var numbers = make([]int, 3, 5)
+    fmt.Printf("len = %d, cap = %d, slice = %v\n", len(numbers), cap(numbers), numbers)
+
+    numbers = append(numbers, 1)
+    fmt.Printf("len = %d, cap = %d, slice = %v\n", len(numbers), cap(numbers), numbers)
+
+    numbers = append(numbers, 2)
+    fmt.Printf("len = %d, cap = %d, slice = %v\n", len(numbers), cap(numbers), numbers)
+
+    numbers = append(numbers, 3)
+    fmt.Printf("len = %d, cap = %d, slice = %v\n", len(numbers), cap(numbers), numbers)
+}
+```
+
+📌 **总结：**
+- 数组是**固定大小**的，传递是值传递。
+- `slice`（切片）是**动态的**，传递是引用传递。
+- `append()` 超过容量时，容量会**翻倍增长**。
+
 
   
 
