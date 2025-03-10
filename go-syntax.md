@@ -1740,6 +1740,272 @@ func main() {
     printMap(cityMap)
 }
 ```
+
+# 16. Go 语言结构体
+
+Go 语言中数组可以存储同一类型的数据，但在结构体中我们可以为不同项定义不同的数据类型。
+
+结构体是由一系列具有相同类型或不同类型的数据构成的数据集合。
+
+结构体表示一项记录，比如保存图书馆的书籍记录，每本书有以下属性：
+
+- **Title** ：标题  
+- **Author** ： 作者  
+- **Subject**：学科  
+- **ID**：书籍ID  
+
+---
+
+## 定义结构体
+
+结构体定义需要使用 `type` 和 `struct` 语句。`struct` 语句定义一个新的数据类型，结构体中有一个或多个成员。`type` 语句设定了结构体的名称。
+
+```go
+type Books struct {
+   title   string
+   author  string
+   subject string
+   book_id int
+}
+```
+一旦定义了结构体类型，它就能用于变量的声明，语法格式如下：
+
+```go
+variable_name := structure_variable_type {value1, value2...valuen}
+```
+
+或
+
+```go
+variable_name := structure_variable_type { key1: value1, key2: value2..., keyn: valuen}
+```
+
+示例：
+
+```go
+package main
+
+import "fmt"
+
+type Books struct {
+   title   string
+   author  string
+   subject string
+   book_id int
+}
+
+func main() {
+    fmt.Println(Books{"Go 语言", "www.runoob.com", "Go 语言教程", 6495407})
+    fmt.Println(Books{title: "Go 语言", author: "www.runoob.com", subject: "Go 语言教程", book_id: 6495407})
+    fmt.Println(Books{title: "Go 语言", author: "www.runoob.com"})
+}
+```
+
+---
+
+## 访问结构体成员
+
+```go
+package main
+
+import "fmt"
+
+type Books struct {
+   title   string
+   author  string
+   subject string
+   book_id int
+}
+
+func main() {
+   var Book1 Books
+   var Book2 Books
+
+   Book1.title = "Go 语言"
+   Book1.author = "www.runoob.com"
+   Book1.subject = "Go 语言教程"
+   Book1.book_id = 6495407
+
+   Book2.title = "Python 教程"
+   Book2.author = "www.runoob.com"
+   Book2.subject = "Python 语言教程"
+   Book2.book_id = 6495700
+
+   fmt.Printf("Book 1 title : %s\n", Book1.title)
+   fmt.Printf("Book 2 title : %s\n", Book2.title)
+}
+```
+
+---
+
+## 结构体作为函数参数
+
+```go
+func printBook(book Books) {
+   fmt.Printf("Book title : %s\n", book.title)
+   fmt.Printf("Book author : %s\n", book.author)
+   fmt.Printf("Book subject : %s\n", book.subject)
+   fmt.Printf("Book book_id : %d\n", book.book_id)
+}
+```
+
+调用：
+
+```go
+printBook(Book1)
+printBook(Book2)
+```
+
+---
+
+## 结构体指针
+
+```go
+package main
+
+import "fmt"
+
+type Books struct {
+   title   string
+   author  string
+   subject string
+   book_id int
+}
+
+func printBook(book *Books) {
+   fmt.Printf("Book title : %s\n", book.title)
+   fmt.Printf("Book author : %s\n", book.author)
+   fmt.Printf("Book subject : %s\n", book.subject)
+   fmt.Printf("Book book_id : %d\n", book.book_id)
+}
+
+func main() {
+   var Book1 = Books{"Go 语言", "www.runoob.com", "Go 语言教程", 6495407}
+   var Book2 = Books{"Python 教程", "www.runoob.com", "Python 语言教程", 6495700}
+
+   printBook(&Book1)
+   printBook(&Book2)
+}
+```
+
+---
+
+### 17. Go 语言 `make`, `range`
+
+#### `make` 关键字
+`make` 关键字用于创建 **切片（slice）、映射（map）和通道（channel）**，它可以动态分配空间，避免手动初始化，提高代码效率。
+
+##### 语法：
+```go
+make(T, length, capacity)
+```
+- `T`：要创建的类型（slice、map、channel）。
+- `length`：指定长度（仅适用于 slice）。
+- `capacity`：可选参数，仅适用于 slice，表示容量大小。
+
+##### 示例：
+```go
+package main
+import "fmt"
+
+func main() {
+    s := make([]int, 3, 5) // 创建切片，长度3，容量5
+    fmt.Println(s, len(s), cap(s)) // 输出: [0 0 0] 3 5
+
+    m := make(map[string]int) // 创建 map
+    m["one"] = 1
+    fmt.Println(m) // 输出: map[one:1]
+
+    ch := make(chan int, 2) // 创建缓冲通道
+    ch <- 10
+    ch <- 20
+    fmt.Println(<-ch, <-ch) // 输出: 10 20
+}
+```
+
+---
+
+#### `range` 关键字
+`range` 关键字用于遍历数组（array）、切片（slice）、映射（map）、通道（channel）或字符串。
+
+##### `range` 遍历数组和切片：
+```go
+package main
+import "fmt"
+
+func main() {
+    nums := []int{1, 2, 3, 4}
+    for index, value := range nums {
+        fmt.Printf("index: %d, value: %d\n", index, value)
+    }
+}
+```
+输出：
+```
+index: 0, value: 1
+index: 1, value: 2
+index: 2, value: 3
+index: 3, value: 4
+```
+
+##### `range` 遍历 Map：
+```go
+package main
+import "fmt"
+
+func main() {
+    m := map[string]int{"a": 1, "b": 2, "c": 3}
+    for key, value := range m {
+        fmt.Printf("key: %s, value: %d\n", key, value)
+    }
+}
+```
+
+##### `range` 遍历字符串：
+```go
+package main
+import "fmt"
+
+func main() {
+    for index, char := range "Go语言" {
+        fmt.Printf("index: %d, char: %c\n", index, char)
+    }
+}
+```
+
+##### `range` 遍历通道：
+```go
+package main
+import "fmt"
+
+func main() {
+    ch := make(chan int, 3)
+    ch <- 1
+    ch <- 2
+    ch <- 3
+    close(ch)
+
+    for value := range ch {
+        fmt.Println(value)
+    }
+}
+```
+输出：
+```
+1
+2
+3
+```
+
+---
+
+### 总结：
+✅ `make` 用于创建 slice、map 和 channel。
+✅ `range` 用于遍历数组、切片、map、channel 和字符串。
+✅ `range` 遍历 map 时顺序不固定。
+✅ 遍历时可使用 `_` 忽略索引或值。
+
+
   
 
 - Multiple Return Values （多返回值）
