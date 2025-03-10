@@ -2303,7 +2303,181 @@ level =  88
 ## 6. 总结
 Go 语言没有传统意义上的继承机制，但可以使用结构体嵌套模拟继承。通过这种方式，可以实现代码复用、方法重写等 OOP 特性，使代码更加简洁和模块化。
 
-  
+
+# 20.Go 语言面向对象 - 接口
+
+## 1. 介绍
+
+接口（interface）是 Go 语言中的一种类型，用于定义行为的集合，它通过描述类型必须实现的方法，规定了类型的行为契约。Go 语言的接口设计简单但功能强大，是实现多态和解耦的重要工具。
+
+## 2. 接口的特点
+
+- **隐式实现**：
+  - Go 语言中没有关键字显式声明某个类型实现了某个接口。
+  - 只要一个类型实现了接口要求的所有方法，该类型就自动被认为实现了该接口。
+
+- **接口类型变量**：
+  - 接口变量可以存储实现该接口的任意值。
+  - 接口变量实际上包含两个部分：
+    - 动态类型：存储实际的值类型。
+    - 动态值：存储具体的值。
+
+- **零值接口**：
+  - 接口的零值是 `nil`。
+  - 一个未初始化的接口变量其值为 `nil`，且不包含任何动态类型或值。
+
+- **空接口**：
+  - 定义为 `interface{}`，可以表示任何类型。
+
+## 3. 接口的常见用法
+
+- **多态**：不同类型实现同一接口，实现多态行为。
+- **解耦**：通过接口定义依赖关系，降低模块之间的耦合。
+- **泛化**：使用空接口 `interface{}` 表示任意类型。
+
+## 4. 接口定义和实现
+
+接口定义使用关键字 `interface`，其中包含方法声明。
+
+### **示例 1：定义和实现接口**
+
+```go
+package main
+
+import (
+        "fmt"
+        "math"
+)
+
+// 定义接口
+type Shape interface {
+        Area() float64
+        Perimeter() float64
+}
+
+// 定义一个结构体
+type Circle struct {
+        Radius float64
+}
+
+// Circle 实现 Shape 接口
+func (c Circle) Area() float64 {
+        return math.Pi * c.Radius * c.Radius
+}
+
+func (c Circle) Perimeter() float64 {
+        return 2 * math.Pi * c.Radius
+}
+
+func main() {
+        c := Circle{Radius: 5}
+        var s Shape = c // 接口变量可以存储实现了接口的类型
+        fmt.Println("Area:", s.Area())
+        fmt.Println("Perimeter:", s.Perimeter())
+}
+```
+
+**输出结果**：
+
+```
+Area: 78.53981633974483
+Perimeter: 31.41592653589793
+```
+
+### **示例 2：接口多态**
+
+```go
+package main
+
+import "fmt"
+
+// 本质是一个指针
+type AnimalIF interface {
+	Sleep()
+	GetColor() string // 获取动物的颜色
+	GetType() string  // 获取动物的种类
+}
+
+// 具体的类
+
+type Cat struct {
+	color string // 猫的颜色
+}
+
+func (this *Cat) Sleep() {
+	fmt.Println("Cat is Sleep")
+}
+
+func (this *Cat) GetColor() string {
+	return this.color
+}
+
+func (this *Cat) GetType() string {
+	return "Cat"
+}
+
+// 具体的类
+type Dog struct {
+	color string
+}
+
+func (this *Dog) Sleep() {
+	fmt.Println("Dog is Sleep")
+}
+
+func (this *Dog) GetColor() string {
+	return this.color
+}
+
+func (this *Dog) GetType() string {
+	return "Dog"
+}
+
+func showAnimal(animal AnimalIF) {
+	animal.Sleep() // 多态
+	fmt.Println("color = ", animal.GetColor())
+	fmt.Println("kind = ", animal.GetType())
+}
+
+func main() {
+	var animal AnimalIF // 接口的数据类型，父类指针
+	animal = &Cat{"Green"}
+	animal.Sleep() // 调用的就是 Cat 的 Sleep() 方法，多态的现象
+
+	animal = &Dog{"Yellow"}
+	animal.Sleep() // 调用 Dog 的 Sleep() 方法，多态的现象
+
+	cat := Cat{"Green"}
+	dog := Dog{"Yellow"}
+
+	showAnimal(&cat)
+	showAnimal(&dog)
+}
+```
+
+**输出结果**：
+
+```
+Cat is Sleep
+Dog is Sleep
+Cat is Sleep
+color =  Green
+kind =  Cat
+Dog is Sleep
+color =  Yellow
+kind =  Dog
+```
+
+## 5. 总结
+
+- Go 语言的接口是一种行为约定，类型通过实现接口方法来满足接口。
+- 通过接口变量可以存储实现该接口的不同类型，实现多态。
+- Go 语言的接口采用**隐式实现**，无须显式声明实现。
+- **接口变量的本质**包含了动态类型和动态值。
+- 通过接口可以降低代码耦合，提高代码的灵活性。
+
+接口的设计使 Go 语言在实现抽象、解耦和多态时更加简洁高效，是 Go 语言编程的重要工具。
+
 
 - Multiple Return Values （多返回值）
 - Functions （函数）
