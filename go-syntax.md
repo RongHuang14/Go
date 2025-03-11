@@ -2479,6 +2479,161 @@ kind =  Dog
 接口的设计使 Go 语言在实现抽象、解耦和多态时更加简洁高效，是 Go 语言编程的重要工具。
 
 
+
+# 21.Go 语言面向对象 - 空接口
+<img width="564" alt="image" src="https://github.com/user-attachments/assets/91010d16-7c50-4704-b31c-b5fc8ac2bf8c" />
+## 1. 介绍
+
+空接口 `interface{}` 是 Go 语言中的特殊接口，表示所有类型的超集。由于 Go 语言的接口实现是隐式的，所有类型都默认实现了 `interface{}`，因此可以用于存储任意类型的数据。
+
+空接口在以下场景非常有用：
+- 需要存储任意类型的数据（如泛型容器、JSON 解析）。
+- 作为函数参数，允许接收不同类型的值。
+- 作为返回值，使得函数能够返回不同类型的数据。
+
+## 2. 空接口的使用
+
+### **示例 1：空接口存储任意类型**
+
+```go
+package main
+
+import "fmt"
+
+func printValue(val interface{}) {
+    fmt.Printf("Value: %v, Type: %T\n", val, val)
+}
+
+func main() {
+    printValue(42)         // int
+    printValue("hello")    // string
+    printValue(3.14)       // float64
+    printValue([]int{1, 2}) // slice
+}
+```
+
+**输出结果**：
+
+```
+Value: 42, Type: int
+Value: hello, Type: string
+Value: 3.14, Type: float64
+Value: [1 2], Type: []int
+```
+
+## 3. 类型断言
+
+类型断言用于从接口类型中提取其底层值。
+
+### **基本语法**:
+
+```go
+value := iface.(Type)
+```
+
+- `iface` 是接口变量。
+- `Type` 是要断言的具体类型。
+- 如果类型不匹配，会触发 `panic`。
+
+### **示例 2：类型断言**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var i interface{} = "hello"
+    str := i.(string) // 类型断言
+    fmt.Println(str)  // 输出：hello
+}
+```
+
+## 4. 带检查的类型断言
+
+为了避免 `panic`，可以使用带检查的类型断言：
+
+```go
+value, ok := iface.(Type)
+```
+
+- `ok` 是一个布尔值，表示断言是否成功。
+- 如果断言失败，`value` 为零值，`ok` 为 `false`。
+
+### **示例 3：带检查的类型断言**
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var i interface{} = 42
+    if str, ok := i.(string); ok {
+        fmt.Println("String:", str)
+    } else {
+        fmt.Println("Not a string")
+    }
+}
+```
+
+**输出结果**：
+
+```
+Not a string
+```
+
+## 5. 空接口在函数参数中的应用
+
+Go 语言中的 `interface{}` 作为函数参数时，可以接收任意类型的值。
+
+### **示例 4：空接口作为函数参数**
+
+```go
+package main
+
+import "fmt"
+
+// interface{} 是万能数据类型
+func myFunc(arg interface{}) {
+    fmt.Println("myFunc is called...")
+    fmt.Println(arg)
+
+    // interface{} 如何区分底层数据类型？
+    // 通过类型断言进行类型检查
+    value, ok := arg.(string)
+    if !ok {
+        fmt.Println("arg is not string type")
+    } else {
+        fmt.Println("arg is string type, value =", value)
+        fmt.Printf("value type is %T\n", value)
+    }
+}
+
+type Book struct {
+    auth string
+}
+
+func main() {
+    book := Book{"Golang"}
+
+    myFunc(book)
+    myFunc(100)
+    myFunc("abc")
+    myFunc(3.14)
+}
+```
+
+## 6. 总结
+
+- 空接口 `interface{}` 可以存储任意类型的数据。
+- 通过**类型断言**从 `interface{}` 变量中提取具体类型的值。
+- 使用**带检查的类型断言**可以避免 `panic`，提高代码的安全性。
+- 空接口常用于函数参数，能够接收不同类型的值，增强代码的灵活性。
+
+空接口的设计使 Go 语言在泛型编程、动态类型处理以及解耦代码方面具有极大的优势，是 Go 语言编程中非常重要的特性。
+
+
 - Multiple Return Values （多返回值）
 - Functions （函数）
   - `main` Function & `init` Function （main函数与init函数）
